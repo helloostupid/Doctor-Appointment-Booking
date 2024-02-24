@@ -1,0 +1,209 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.authentication{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.spinner-parent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 2;
+}
+
+.spinner-border{
+  width: 5rem;
+  height: 5rem;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=League+Spartan:wght@400;500;600;700&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* CSS variables */
+
+:root {
+    --header-height : 4rem;
+
+    /* colors (hue, saturation, lightness) */
+    --first-color : rgb(96, 153, 102);
+    --first-color-alt : rgba(207,236,234,255);
+    --second-color : hsl(34, 94%, 87%);
+    --title-color : hsl(0, 0%, 13%);
+    --text-color : hsl(0, 0%, 0%);
+    --text-color-light : hsl(0, 3%, 33%);
+    --body-color : hsl(0, 0%, 100%);
+    --container-color : hsl(0, 0%, 93%);
+    --border-color : hsl(129, 36%, 85%);
+    --border-color-alt : hsl(113, 15%, 90%);
+
+    /* fonts */
+    --body-font : 'Poppins', sans-serif;
+    --second-font : 'Lato', sans-serif;
+    --big-font-size : 3.5rem;
+    --h1-font-size : 2.75rem;
+    --h2-font-size : 2rem;
+    --h3-font-size : 1.75rem;
+    --h4-font-size : 1.375rem;
+    --large-font-size : 1.125rem;
+    --normal-font-size : 1rem;
+    --small-font-size : 0.875rem;
+    --smaller-font-size : 0.75rem;
+    --tiny-font-size : 0.6875rem;
+
+    /* font weights */
+    --weight-400 : 400;
+    --weight-500 : 500;
+    --weight-600 : 600;
+    --weight-700 : 700;
+
+    /* transition */
+    --transition : cubic-bezier(0, 0, 0.05, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+input, textarea, body {
+    color: var(--text-color);
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    font-weight: var(--weight-400);
+}
+
+body {
+    background-color: var(--body-color);
+}
+
+h1,h2,h3,h4 {
+    font-family: var(--second-font);
+    color: var(--title-color);
+    font-weight: var(--weight-600);
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    line-height: 1.5rem;
+}
+
+img {
+    max-width: 100%;
+}
+
+button, input, textarea {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+/* Reusable Classes Section */
+
+.container {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 0.75rem;
+}
+
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.section {
+    padding-block: 2rem;
+}
+
+.section__title {
+    font-size: var(--h3-font-size);
+    margin-bottom: 1.5rem;
+}
+
+.section__title span {
+    color: var(--first-color);
+}
+
+.section--lg {
+    padding-block: 4rem;
+}
+
+.form__input {
+    border: 1px solid var(--border-color-alt);
+    padding-inline: 1rem;
+    height: 45px;
+    border-radius: 0.25rem;
+    font-size: var(--small-font-size);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    height: 100vh;
+}
+
+.content-grid{
+    display: grid;
+    grid-template-rows: 350px 1fr;
+    padding-top: 40px;
+    padding-left: 10px;
+}
+
+.page-heading{
+    padding: 15px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+}
+
+.notif-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.notif-action {
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.notif-text{
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.admin-actions{
+    display: flex;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
