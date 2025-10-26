@@ -1,0 +1,11 @@
+{
+  "projectName": "Doctor Appointment Booking System",
+  "description": "A simple JavaScript project for doctor appointment booking system.",
+  "modules": [
+    "server.js",
+    "routes",
+    "client/src",
+    "models",  
+    "middlewares" 
+  ]
+}
