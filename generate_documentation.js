@@ -26,45 +26,9 @@ function getAllJsFiles(dir) {
   return results;
 }
 
-function extractCodeSnippets(filePath) {
-  const code = fs.readFileSync(filePath, "utf8");
 
-  const funcRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)}/g;
-  const arrowFuncRegex = /const\s+(\w+)\s*=\s*\(([^)]*)\)\s*=>\s*{([\s\S]*?)}/g;
-  const classRegex = /class\s+(\w+)\s*{([\s\S]*?)}/g;
-
-  const snippets = [];
-
-  for (const [_, name, params, body] of code.matchAll(funcRegex))
-    snippets.push({ type: "Function", name, params, body });
-
-  for (const [_, name, params, body] of code.matchAll(arrowFuncRegex))
-    snippets.push({ type: "Arrow Function", name, params, body });
-
-  for (const [_, name, body] of code.matchAll(classRegex))
-    snippets.push({ type: "Class", name, params: "", body });
-
-  return snippets;
-}
-
-async function summarizeWithOpenAI(name, code) {
-  try {
-    const prompt = `Write documentation for this ${name}:\n\n${code} \n I need to generate documentation for this code.`;
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 80
-    });
-    return response.choices[0].message.content.trim();
-  } catch (error) {
-    console.error(`Error summarizing ${name}:`, error.message);
-    return "Could not generate summary.";
-  }
-}
-
-async function generateDocs() {
-  let output = `# ${context.projectName}\n\n${context.description}\n\n`;
-
+function getRepoCode() {
+  let allCode = "";
   for (const entry of context.modules) {
     const fullPath = path.resolve(entry);
     let files = [];
@@ -79,20 +43,34 @@ async function generateDocs() {
     }
 
     for (const file of files) {
-      output += `## ${path.relative(process.cwd(), file)}\n\n`;
-
-      const snippets = extractCodeSnippets(file);
-      if (snippets.length === 0) {
-        output += "_No functions or classes found._\n\n";
-      } else {
-        for (const snippet of snippets) {
-          const summary = await summarizeWithOpenAI(snippet.name, snippet.body);
-          output += `- **${snippet.type}:** \`${snippet.name}\`\n  ${summary}\n\n`;
-        }
-      }
+      const code = fs.readFileSync(file, "utf8");
+      allCode += `\n// File: ${path.relative(process.cwd(), file)}\n${code}\n`;
     }
   }
+  return allCode;
+}
 
+
+async function generateRepoSummary() {
+  const allCode = getRepoCode();
+  const prompt = `You are an expert developer. Write a concise README-style summary explaining what this project does and its main functionality based on the code below:\n\n${allCode}`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-5-nano",
+      messages: [{ role: "user", content: prompt }]
+    });
+    return response.choices[0].message.content.trim();
+  } catch (error) {
+    console.error("Error generating repo summary:", error.message);
+    return "Could not generate summary.";
+  }
+}
+
+
+async function generateDocs() {
+  const repoSummary = await generateRepoSummary();
+  const output = `# ${context.projectName}\n\n${context.description}\n\n## Overview\n\n${repoSummary}\n`;
   fs.writeFileSync("DOCS.md", output);
   console.log("DOCS.md generated successfully!");
 }
